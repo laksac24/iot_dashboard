@@ -193,7 +193,18 @@
     border-radius: 16px;
     padding: 1.25rem;
     margin-bottom: 1rem;
+    transition: border-color 0.3s;
   }
+  /* Highlight rain probability box when high */
+  .prob-section.rain-alert {
+    border-color: rgba(255,112,67,0.4);
+    animation: rainProbPulse 2s ease-in-out infinite;
+  }
+  @keyframes rainProbPulse {
+    0%,100% { box-shadow: none; }
+    50% { box-shadow: 0 0 16px rgba(255,112,67,0.2); }
+  }
+
   .prob-header {
     display: flex; justify-content: space-between; align-items: center;
     margin-bottom: 0.75rem;
@@ -224,6 +235,12 @@
     transition: width 0.8s cubic-bezier(0.4,0,0.2,1);
     box-shadow: 0 0 8px rgba(79,195,247,0.5);
     width: 0%;
+  }
+  .prob-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
   }
 
   .rain-badge {
@@ -332,6 +349,95 @@
     color: var(--accent);
   }
 
+  /* Supabase config banner */
+  .config-banner {
+    background: rgba(255,112,67,0.08);
+    border: 1px solid rgba(255,112,67,0.25);
+    border-radius: 10px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: #ff8a65;
+    line-height: 1.6;
+    position: relative;
+    z-index: 1;
+  }
+  .config-banner strong { color: #ffab91; display: block; margin-bottom: 0.25rem; }
+  .config-banner code {
+    background: rgba(255,112,67,0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 0.62rem;
+  }
+
+  /* Supabase config inputs */
+  .supabase-config {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
+  }
+  .config-row {
+    display: flex; flex-direction: column; gap: 0.5rem;
+    margin-bottom: 0.65rem;
+  }
+  .config-row:last-child { margin-bottom: 0; }
+  .config-row label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .config-input {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+  }
+  .config-input::placeholder { color: rgba(232,240,254,0.2); }
+  .config-input:focus { border-color: rgba(79,195,247,0.4); }
+
+  .config-save-btn {
+    width: 100%;
+    background: rgba(79,195,247,0.1);
+    border: 1px solid rgba(79,195,247,0.25);
+    border-radius: 8px;
+    padding: 0.55rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    margin-top: 0.65rem;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .config-save-btn:hover { background: rgba(79,195,247,0.18); border-color: rgba(79,195,247,0.4); }
+
+  .supabase-status {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    margin-top: 0.5rem;
+    min-height: 1rem;
+  }
+  .supabase-status.ok { color: #81c784; }
+  .supabase-status.err { color: #ff8a65; }
+  .supabase-status.checking { color: var(--muted); }
+
   .alert-desc {
     font-family: 'DM Mono', monospace;
     font-size: 0.67rem;
@@ -339,13 +445,14 @@
     line-height: 1.6;
     margin-bottom: 1rem;
     letter-spacing: 0.03em;
+    position: relative;
+    z-index: 1;
   }
-  .alert-desc strong {
-    color: rgba(232,240,254,0.7);
-  }
+  .alert-desc strong { color: rgba(232,240,254,0.7); }
 
   .email-input-row {
     display: flex; gap: 0.6rem;
+    position: relative; z-index: 1;
   }
   .email-input {
     flex: 1;
@@ -381,14 +488,9 @@
     transition: background 0.2s, border-color 0.2s, transform 0.1s;
     white-space: nowrap;
   }
-  .register-btn:hover {
-    background: rgba(79,195,247,0.2);
-    border-color: rgba(79,195,247,0.5);
-  }
+  .register-btn:hover { background: rgba(79,195,247,0.2); border-color: rgba(79,195,247,0.5); }
   .register-btn:active { transform: scale(0.97); }
-  .register-btn:disabled {
-    opacity: 0.4; cursor: not-allowed;
-  }
+  .register-btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
   .email-feedback {
     font-family: 'DM Mono', monospace;
@@ -397,16 +499,17 @@
     min-height: 1rem;
     letter-spacing: 0.04em;
     transition: opacity 0.3s;
+    position: relative; z-index: 1;
   }
   .email-feedback.success { color: var(--green); }
   .email-feedback.error   { color: var(--alert); }
   .email-feedback.info    { color: var(--muted); }
 
-  /* Subscriber list pill strip */
   .subscriber-strip {
     margin-top: 0.9rem;
     display: flex; align-items: center; gap: 0.5rem;
     flex-wrap: wrap;
+    position: relative; z-index: 1;
   }
   .sub-label {
     font-family: 'DM Mono', monospace;
@@ -439,10 +542,10 @@
   }
   .sub-remove:hover { color: var(--alert); }
 
-  /* Alert status pill */
   .alert-status-row {
     margin-top: 0.9rem;
     display: flex; align-items: center; gap: 0.6rem;
+    position: relative; z-index: 1;
   }
   .alert-status-pill {
     display: inline-flex; align-items: center; gap: 0.4rem;
@@ -483,7 +586,6 @@
   .cooldown .alert-status-dot  { background: #ffd54f; box-shadow: 0 0 6px #ffca28; }
   .idle .alert-status-dot      { background: var(--muted); box-shadow: none; animation: none; }
 
-  /* ── STATUS BAR ── */
   .status-bar {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: 1.5rem;
@@ -527,6 +629,26 @@
 
   .fade-in { animation: fadeIn 0.5s ease; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* toggle for config panel */
+  .config-toggle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.2s;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-color: rgba(232,240,254,0.2);
+  }
+  .config-toggle:hover { color: var(--accent); }
+  .collapsible { overflow: hidden; transition: max-height 0.35s ease; }
+  .collapsible.collapsed { max-height: 0 !important; }
 </style>
 </head>
 <body>
@@ -574,7 +696,7 @@
       </div>
     </div>
 
-    <div class="prob-section">
+    <div class="prob-section" id="probSection">
       <div class="prob-header">
         <span class="prob-label">Rain Probability</span>
         <span class="prob-pct" id="probPct">—</span>
@@ -582,6 +704,7 @@
       <div class="bar-track">
         <div class="bar-fill" id="barFill"></div>
       </div>
+      <div class="prob-sub" id="probSub"></div>
     </div>
 
     <div class="rain-badge no-rain" id="rainBadge">
@@ -609,10 +732,34 @@
       <div class="alert-header">
         <span class="alert-bell">🔔</span>
         <span class="alert-title">Rain Alerts</span>
+        <button class="config-toggle" id="configToggle" onclick="toggleConfig()" style="margin-left:auto">⚙ Supabase Config</button>
       </div>
+
+      <!-- Supabase configuration panel (collapsible) -->
+      <div class="collapsible collapsed" id="configPanel" style="max-height:300px">
+        <div class="config-banner">
+          <strong>⚠ Supabase setup required</strong>
+          Set your Supabase Project URL and anon key below, then click Save.
+          Make sure you have a table called <code>alert_subscribers</code> with columns:
+          <code>id</code> (int8, pk), <code>email</code> (text, unique), <code>created_at</code> (timestamptz, default now()).
+        </div>
+        <div class="supabase-config">
+          <div class="config-row">
+            <label>Supabase Project URL</label>
+            <input class="config-input" id="sbUrl" type="url" placeholder="https://xxxx.supabase.co" />
+          </div>
+          <div class="config-row">
+            <label>Anon / Public Key</label>
+            <input class="config-input" id="sbKey" type="text" placeholder="eyJhbGci..." />
+          </div>
+          <button class="config-save-btn" onclick="saveSupabaseConfig()">Save &amp; Test Connection</button>
+          <div class="supabase-status" id="supabaseStatus"></div>
+        </div>
+      </div>
+
       <p class="alert-desc">
-        Want a heads-up before it pours? Register your email and we'll send you an alert whenever
-        <strong>rain probability exceeds 75%</strong>. Alerts are spaced at least <strong>1 hour apart</strong>.
+        Emails are saved to <strong>Supabase</strong> and a rain alert fires to all subscribers
+        whenever <strong>rain probability exceeds 75%</strong>. Alerts are spaced at least <strong>1 hour apart</strong>.
       </p>
 
       <div class="email-input-row">
@@ -627,10 +774,8 @@
       </div>
       <div class="email-feedback" id="emailFeedback"></div>
 
-      <!-- Subscribed email pills -->
       <div class="subscriber-strip" id="subscriberStrip"></div>
 
-      <!-- Alert system status -->
       <div class="alert-status-row">
         <div class="alert-status-pill idle" id="alertStatusPill">
           <div class="alert-status-dot"></div>
@@ -651,324 +796,476 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-  // ── STARS ──
-  const starsEl = document.getElementById('stars');
-  for (let i = 0; i < 80; i++) {
-    const s = document.createElement('div');
-    s.className = 'star';
-    const size = Math.random() * 1.8 + 0.4;
-    s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;--dur:${2+Math.random()*4}s;--min:${0.05+Math.random()*0.2};--max:${0.4+Math.random()*0.6};animation-delay:${Math.random()*5}s;`;
-    starsEl.appendChild(s);
-  }
+// ── STARS ──
+const starsEl = document.getElementById('stars');
+for (let i = 0; i < 80; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const size = Math.random() * 1.8 + 0.4;
+  s.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;--dur:${2+Math.random()*4}s;--min:${0.05+Math.random()*0.2};--max:${0.4+Math.random()*0.6};animation-delay:${Math.random()*5}s;`;
+  starsEl.appendChild(s);
+}
 
-  // ── RAIN DROPS ──
-  const rainOverlay = document.getElementById('rainOverlay');
-  for (let i = 0; i < 30; i++) {
-    const d = document.createElement('div');
-    d.className = 'raindrop';
-    const h = 20 + Math.random() * 50;
-    d.style.cssText = `left:${Math.random()*100}%;height:${h}px;animation-duration:${0.6+Math.random()*0.8}s;animation-delay:${Math.random()*1.5}s;`;
-    rainOverlay.appendChild(d);
-  }
+// ── RAIN DROPS ──
+const rainOverlay = document.getElementById('rainOverlay');
+for (let i = 0; i < 30; i++) {
+  const d = document.createElement('div');
+  d.className = 'raindrop';
+  const h = 20 + Math.random() * 50;
+  d.style.cssText = `left:${Math.random()*100}%;height:${h}px;animation-duration:${0.6+Math.random()*0.8}s;animation-delay:${Math.random()*1.5}s;`;
+  rainOverlay.appendChild(d);
+}
 
-  // ── MONTHLY CHART ──
-  const mayData = [74,71,68,38,29,22,35,18,25,31,27,20,33,15,28,22,37,19,24,30,16,28,21,34,18,26,22,30,17,24,20];
-  const mayLabels = Array.from({length:31},(_,i)=>i+1);
-  const barColors = mayData.map(v => v >= 60 ? '#5c9bd6' : v >= 40 ? '#4fc3f7' : 'rgba(79,195,247,0.35)');
-  const barBorders = mayData.map(v => v >= 60 ? '#81c4f0' : v >= 40 ? '#81d4fa' : 'rgba(79,195,247,0.55)');
+// ── MONTHLY CHART ──
+const mayData = [74,71,68,38,29,22,35,18,25,31,27,20,33,15,28,22,37,19,24,30,16,28,21,34,18,26,22,30,17,24,20];
+const mayLabels = Array.from({length:31},(_,i)=>i+1);
+const barColors  = mayData.map(v => v >= 60 ? '#5c9bd6' : v >= 40 ? '#4fc3f7' : 'rgba(79,195,247,0.35)');
+const barBorders = mayData.map(v => v >= 60 ? '#81c4f0' : v >= 40 ? '#81d4fa' : 'rgba(79,195,247,0.55)');
 
-  new Chart(document.getElementById('rainChart'), {
-    type: 'bar',
-    data: {
-      labels: mayLabels,
-      datasets: [{
-        data: mayData,
-        backgroundColor: barColors,
-        borderColor: barBorders,
+new Chart(document.getElementById('rainChart'), {
+  type: 'bar',
+  data: {
+    labels: mayLabels,
+    datasets: [{
+      data: mayData,
+      backgroundColor: barColors,
+      borderColor: barBorders,
+      borderWidth: 1,
+      borderRadius: 3,
+      borderSkipped: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: 'rgba(10,15,30,0.95)',
+        borderColor: 'rgba(79,195,247,0.3)',
         borderWidth: 1,
-        borderRadius: 3,
-        borderSkipped: false,
-      }]
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          backgroundColor: 'rgba(10,15,30,0.95)',
-          borderColor: 'rgba(79,195,247,0.3)',
-          borderWidth: 1,
-          titleColor: '#4fc3f7',
-          bodyColor: 'rgba(232,240,254,0.7)',
-          titleFont: { family: "'DM Mono', monospace", size: 11 },
-          bodyFont: { family: "'DM Mono', monospace", size: 12 },
-          callbacks: {
-            title: ctx => 'May ' + ctx[0].label,
-            label: ctx => 'Rain chance: ' + ctx.raw + '%'
-          }
-        }
-      },
-      scales: {
-        x: {
-          ticks: {
-            color: 'rgba(232,240,254,0.35)',
-            font: { family: "'DM Mono', monospace", size: 9 },
-            autoSkip: false,
-            maxRotation: 0,
-            callback: (val, i) => (i+1) % 5 === 1 || i === 30 ? mayLabels[i] : ''
-          },
-          grid: { color: 'rgba(255,255,255,0.04)' },
-          border: { color: 'rgba(255,255,255,0.08)' }
-        },
-        y: {
-          min: 0, max: 100,
-          ticks: {
-            color: 'rgba(232,240,254,0.35)',
-            font: { family: "'DM Mono', monospace", size: 9 },
-            callback: v => v + '%',
-            stepSize: 25
-          },
-          grid: { color: 'rgba(255,255,255,0.05)' },
-          border: { color: 'rgba(255,255,255,0.08)' }
+        titleColor: '#4fc3f7',
+        bodyColor: 'rgba(232,240,254,0.7)',
+        titleFont: { family: "'DM Mono', monospace", size: 11 },
+        bodyFont: { family: "'DM Mono', monospace", size: 12 },
+        callbacks: {
+          title: ctx => 'May ' + ctx[0].label,
+          label: ctx => 'Rain chance: ' + ctx.raw + '%'
         }
       }
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: 'rgba(232,240,254,0.35)',
+          font: { family: "'DM Mono', monospace", size: 9 },
+          autoSkip: false,
+          maxRotation: 0,
+          callback: (val, i) => (i+1) % 5 === 1 || i === 30 ? mayLabels[i] : ''
+        },
+        grid: { color: 'rgba(255,255,255,0.04)' },
+        border: { color: 'rgba(255,255,255,0.08)' }
+      },
+      y: {
+        min: 0, max: 100,
+        ticks: {
+          color: 'rgba(232,240,254,0.35)',
+          font: { family: "'DM Mono', monospace", size: 9 },
+          callback: v => v + '%',
+          stepSize: 25
+        },
+        grid: { color: 'rgba(255,255,255,0.05)' },
+        border: { color: 'rgba(255,255,255,0.08)' }
+      }
+    }
+  }
+});
+
+// ══════════════════════════════════════════════
+//  SUPABASE CONFIG (persisted in localStorage)
+// ══════════════════════════════════════════════
+const SUPABASE_URL = "https://kjltdmkqauziymkfvrwt.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_brsGDSrpdZSqjJp0WOu95Q_GTa0xR0x";
+
+function getSBConfig() {
+  return {
+    url: localStorage.getItem(SB_URL_KEY) || '',
+    key: localStorage.getItem(SB_KEY_KEY) || ''
+  };
+}
+function isConfigured() {
+  const url = SUPABASE_URL;
+  const key = SUPABASE_ANON_KEY;
+  return url.startsWith('https://') && key.length > 10;
+}
+
+// Pre-fill inputs if already saved
+window.addEventListener('DOMContentLoaded', () => {
+  const url = SUPABASE_URL;
+  const key = SUPABASE_ANON_KEY;
+  if (url) document.getElementById('sbUrl').value = url;
+  if (key) document.getElementById('sbKey').value = key;
+  if (isConfigured()) {
+    setSupabaseStatus('checking', 'Config loaded — testing…');
+    testConnection().then(ok => {
+      if (ok) { setSupabaseStatus('ok', '✓ Connected to Supabase'); loadSubscribersFromDB(); }
+      else     { setSupabaseStatus('err', '✗ Could not reach Supabase — check credentials'); }
+    });
+  } else {
+    toggleConfig(); // auto-open panel if not yet configured
+  }
+});
+
+function toggleConfig() {
+  const panel = document.getElementById('configPanel');
+  panel.classList.toggle('collapsed');
+}
+
+async function saveSupabaseConfig() {
+  const url = document.getElementById('sbUrl').value.trim().replace(/\/$/, '');
+  const key = document.getElementById('sbKey').value.trim();
+  if (!url || !key) { setSupabaseStatus('err', '✗ Both fields are required'); return; }
+  localStorage.setItem(SB_URL_KEY, url);
+  localStorage.setItem(SB_KEY_KEY, key);
+  setSupabaseStatus('checking', 'Testing connection…');
+  const ok = await testConnection();
+  if (ok) {
+    setSupabaseStatus('ok', '✓ Connected — credentials saved');
+    document.getElementById('configPanel').classList.add('collapsed');
+    loadSubscribersFromDB();
+  } else {
+    setSupabaseStatus('err', '✗ Connection failed — check URL and key');
+  }
+}
+
+async function testConnection() {
+  try {
+    const url = SUPABASE_URL;
+    const key = SUPABASE_ANON_KEY;
+    const res = await fetch(`${url}/rest/v1/alert_subscribers?select=count`, {
+      headers: {
+        'apikey': key,
+        'Authorization': `Bearer ${key}`,
+        'Prefer': 'count=exact'
+      }
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+function setSupabaseStatus(state, msg) {
+  const el = document.getElementById('supabaseStatus');
+  el.className = `supabase-status ${state}`;
+  el.textContent = msg;
+}
+
+// ══════════════════════════════════════════════
+//  SUPABASE DATABASE OPERATIONS
+// ══════════════════════════════════════════════
+
+// INSERT a new subscriber
+async function insertSubscriber(email) {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/alert_subscribers`,
+    {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      },
+      body: JSON.stringify({ email })
+    }
+  );
+
+  if (res.status === 409) throw new Error('duplicate');
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+  return await res.json();
+}
+
+// FETCH all subscribers
+async function fetchSubscribers() {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/alert_subscribers?select=id,email&order=created_at.asc`,
+    {
+      headers: {
+        'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+      }
+    }
+  );
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return await res.json();
+}
+
+// DELETE a subscriber by id
+async function deleteSubscriber(id) {
+  const url = SUPABASE_URL;
+  const key = SUPABASE_ANON_KEY;
+  const res = await fetch(`${url}/rest/v1/alert_subscribers?id=eq.${id}`, {
+    method: 'DELETE',
+    headers: {
+      'apikey': key,
+      'Authorization': `Bearer ${key}`
     }
   });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+}
 
-  // ── EMAIL / ALERT SYSTEM ──
-  const ALERT_ENDPOINT    = 'https://rain-predictor-iot.vercel.app/send-alert';
-  const WEATHER_ENDPOINT  = 'https://rain-predictor-iot.vercel.app/latest';
-  const ALERT_THRESHOLD   = 0.75;   // 90%
-  const ALERT_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
-  const STORAGE_KEY       = 'weatherAlertEmails';
+// ══════════════════════════════════════════════
+//  LOCAL SUBSCRIBER STATE (mirrors the DB)
+// ══════════════════════════════════════════════
+let subscribers = [];   // [{id, email}, ...]
 
-  // localStorage acts as our "text file" for subscribers
-  function loadEmails() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
-    catch { return []; }
-  }
-  function saveEmails(arr) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-  }
-
-  let lastAlertTime = 0;   // epoch ms of last successful /send-alert call
-  let subscribers   = loadEmails();
-
-  // Render subscriber pills
-  function renderSubscribers() {
-    const strip = document.getElementById('subscriberStrip');
-    strip.innerHTML = '';
-    if (subscribers.length === 0) return;
-
-    const lbl = document.createElement('span');
-    lbl.className = 'sub-label';
-    lbl.textContent = 'Subscribed:';
-    strip.appendChild(lbl);
-
-    subscribers.forEach((email, idx) => {
-      const pill = document.createElement('div');
-      pill.className = 'sub-pill';
-      pill.innerHTML = `${email}<button class="sub-remove" title="Remove" onclick="removeEmail(${idx})">✕</button>`;
-      strip.appendChild(pill);
-    });
-
-    updateAlertStatus('watching', `Watching · ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
-  }
-
-  function removeEmail(idx) {
-    subscribers.splice(idx, 1);
-    saveEmails(subscribers);
+async function loadSubscribersFromDB() {
+  try {
+    subscribers = await fetchSubscribers();
     renderSubscribers();
-    if (subscribers.length === 0) updateAlertStatus('idle', 'No subscribers yet');
+  } catch (e) {
+    console.warn('Failed to load subscribers:', e);
+  }
+}
+
+function renderSubscribers() {
+  const strip = document.getElementById('subscriberStrip');
+  strip.innerHTML = '';
+  if (!subscribers.length) { updateAlertStatus('idle', 'No subscribers yet'); return; }
+
+  const lbl = document.createElement('span');
+  lbl.className = 'sub-label';
+  lbl.textContent = 'Subscribed:';
+  strip.appendChild(lbl);
+
+  subscribers.forEach(sub => {
+    const pill = document.createElement('div');
+    pill.className = 'sub-pill';
+    pill.innerHTML = `${sub.email}<button class="sub-remove" title="Remove" onclick="removeEmail(${sub.id})">✕</button>`;
+    strip.appendChild(pill);
+  });
+
+  updateAlertStatus('watching', `Watching · ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
+}
+
+async function removeEmail(id) {
+  try {
+    await deleteSubscriber(id);
+    subscribers = subscribers.filter(s => s.id !== id);
+    renderSubscribers();
+    if (!subscribers.length) updateAlertStatus('idle', 'No subscribers yet');
+  } catch (e) {
+    setFeedback('Failed to remove: ' + e.message, 'error');
+  }
+}
+
+async function registerEmail() {
+  const input    = document.getElementById('emailInput');
+  const btn      = document.getElementById('registerBtn');
+  const email    = input.value.trim().toLowerCase();
+
+  if (!email) { setFeedback('Please enter an email address.', 'error'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    setFeedback("That doesn't look like a valid email.", 'error'); return;
+  }
+  if (!isConfigured()) {
+    setFeedback('⚠ Configure Supabase first (⚙ button above).', 'error'); return;
   }
 
-  function updateAlertStatus(state, text) {
-    const pill = document.getElementById('alertStatusPill');
-    pill.className = `alert-status-pill ${state}`;
-    document.getElementById('alertStatusText').textContent = text;
-  }
+  btn.disabled = true;
+  setFeedback('Saving to database…', 'info');
 
-  function registerEmail() {
-    const input    = document.getElementById('emailInput');
-    const feedback = document.getElementById('emailFeedback');
-    const btn      = document.getElementById('registerBtn');
-    const email    = input.value.trim().toLowerCase();
-
-    // Validate
-    if (!email) {
-      setFeedback('Please enter an email address.', 'error'); return;
-    }
-    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (!valid) {
-      setFeedback('That doesn\'t look like a valid email.', 'error'); return;
-    }
-    if (subscribers.includes(email)) {
-      setFeedback('This email is already registered! ✓', 'info'); return;
-    }
-
-    // Add
-    subscribers.push(email);
-    saveEmails(subscribers);
+  try {
+    const [row] = await insertSubscriber(email);
+    subscribers.push({ id: row.id, email: row.email });
     renderSubscribers();
     input.value = '';
-    setFeedback(`✓ ${email} registered for rain alerts.`, 'success');
-    btn.disabled = true;
-    setTimeout(() => { btn.disabled = false; }, 1500);
-  }
-
-  function setFeedback(msg, type) {
-    const fb = document.getElementById('emailFeedback');
-    fb.textContent = msg;
-    fb.className = `email-feedback ${type}`;
-    clearTimeout(fb._t);
-    if (type !== 'info') {
-      fb._t = setTimeout(() => { fb.textContent = ''; fb.className = 'email-feedback'; }, 4000);
+    setFeedback(`✓ ${email} saved to Supabase.`, 'success');
+  } catch (e) {
+    if (e.message === 'duplicate') {
+      setFeedback('This email is already registered! ✓', 'info');
+    } else {
+      setFeedback('Failed to save: ' + e.message, 'error');
     }
+  } finally {
+    setTimeout(() => { btn.disabled = false; }, 1200);
+  }
+}
+
+function setFeedback(msg, type) {
+  const fb = document.getElementById('emailFeedback');
+  fb.textContent = msg;
+  fb.className = `email-feedback ${type}`;
+  clearTimeout(fb._t);
+  if (type !== 'info') {
+    fb._t = setTimeout(() => { fb.textContent = ''; fb.className = 'email-feedback'; }, 4000);
+  }
+}
+
+document.getElementById('emailInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') registerEmail();
+});
+
+function updateAlertStatus(state, text) {
+  const pill = document.getElementById('alertStatusPill');
+  pill.className = `alert-status-pill ${state}`;
+  document.getElementById('alertStatusText').textContent = text;
+}
+
+// ══════════════════════════════════════════════
+//  ENDPOINTS
+// ══════════════════════════════════════════════
+const ALERT_ENDPOINT   = 'https://rain-predictor-iot.vercel.app/send-alert';
+const WEATHER_ENDPOINT = 'https://rain-predictor-iot.vercel.app/latest';
+const RAIN_PROB_THRESHOLD  = 75;   // % — trigger alert above this
+const ALERT_COOLDOWN_MS    = 60 * 60 * 1000;   // 1 hour
+
+let lastAlertTime = 0;
+
+// ── RAIN PROBABILITY ALERT LOGIC ──
+async function maybeFireRainAlert(pct) {
+  if (!subscribers.length) return;
+  if (pct <= RAIN_PROB_THRESHOLD) return;
+
+  const now = Date.now();
+  if (now - lastAlertTime < ALERT_COOLDOWN_MS) {
+    const remaining = Math.ceil((ALERT_COOLDOWN_MS - (now - lastAlertTime)) / 60000);
+    updateAlertStatus('cooldown', `Alert sent · next in ${remaining}m`);
+    return;
   }
 
-  // Allow Enter key to register
-  document.getElementById('emailInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') registerEmail();
-  });
+  updateAlertStatus('triggered', 'Rain alert · sending…');
+  const emailList = subscribers.map(s => s.email);
 
-  // ── RAIN ALERT LOGIC ──
-  async function maybeFireAlert(probability) {
-    if (subscribers.length === 0) return;
-    if (probability < ALERT_THRESHOLD) return;
+  try {
+    const res = await fetch(ALERT_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ emails: emailList })
+    });
+    if (res.ok) {
+      lastAlertTime = now;
+      updateAlertStatus('triggered', `⚡ Alert sent to ${emailList.length} subscriber${emailList.length>1?'s':''}`);
+      setTimeout(() => {
+        updateAlertStatus('watching', `Watching · ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
+      }, 5000);
+    } else {
+      updateAlertStatus('watching', `Alert failed (HTTP ${res.status}) · retry next cycle`);
+    }
+  } catch {
+    updateAlertStatus('watching', 'Alert failed · network error');
+  }
+}
 
-    const now = Date.now();
-    const elapsed = now - lastAlertTime;
-    if (elapsed < ALERT_COOLDOWN_MS) {
-      // Show cooldown time remaining
-      const remaining = Math.ceil((ALERT_COOLDOWN_MS - elapsed) / 60000);
-      updateAlertStatus('cooldown', `Alert sent · next in ${remaining}m`);
-      return;
+// ── WEATHER FETCH ──
+const INTERVAL = 30;
+let countdown = INTERVAL;
+let timer;
+
+const tempEl      = document.getElementById('temp');
+const humidityEl  = document.getElementById('humidity');
+const probSection = document.getElementById('probSection');
+const probSub     = document.getElementById('probSub');
+const probPctEl   = document.getElementById('probPct');
+const barFill     = document.getElementById('barFill');
+const rainBadge   = document.getElementById('rainBadge');
+const rainIcon    = document.getElementById('rainIcon');
+const rainText    = document.getElementById('rainText');
+const dot         = document.getElementById('dot');
+const statusText  = document.getElementById('statusText');
+const countdownEl = document.getElementById('countdown');
+const iconWrap    = document.getElementById('iconWrap');
+
+function setIcon(willRain) {
+  iconWrap.innerHTML = willRain ? `
+    <div class="weather-icon">
+      <svg class="cloud-icon" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="45" cy="38" rx="22" ry="14" fill="rgba(92,155,214,0.25)" stroke="rgba(92,155,214,0.5)" stroke-width="1.5"/>
+        <ellipse cx="32" cy="42" rx="13" ry="10" fill="rgba(92,155,214,0.2)" stroke="rgba(92,155,214,0.4)" stroke-width="1.5"/>
+        <ellipse cx="58" cy="44" rx="14" ry="10" fill="rgba(92,155,214,0.2)" stroke="rgba(92,155,214,0.4)" stroke-width="1.5"/>
+        <rect x="31" y="54" width="4" height="10" rx="2" fill="rgba(79,195,247,0.7)" transform="rotate(-10 31 54)"/>
+        <rect x="43" y="56" width="4" height="10" rx="2" fill="rgba(79,195,247,0.7)"/>
+        <rect x="55" y="54" width="4" height="10" rx="2" fill="rgba(79,195,247,0.7)" transform="rotate(10 55 54)"/>
+      </svg>
+    </div>` : `
+    <div class="weather-icon">
+      <svg class="sun-icon" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="45" cy="45" r="16" fill="#ffd54f" opacity="0.9"/>
+        <g stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
+          <line x1="45" y1="8" x2="45" y2="16"/>
+          <line x1="45" y1="74" x2="45" y2="82"/>
+          <line x1="8" y1="45" x2="16" y2="45"/>
+          <line x1="74" y1="45" x2="82" y2="45"/>
+          <line x1="19.5" y1="19.5" x2="25.5" y2="25.5"/>
+          <line x1="64.5" y1="64.5" x2="70.5" y2="70.5"/>
+          <line x1="70.5" y1="19.5" x2="64.5" y2="25.5"/>
+          <line x1="25.5" y1="64.5" x2="19.5" y2="70.5"/>
+        </g>
+      </svg>
+    </div>`;
+}
+
+async function fetchWeather() {
+  try {
+    const res = await fetch(WEATHER_ENDPOINT);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+
+    tempEl.classList.add('fade-in');
+    humidityEl.classList.add('fade-in');
+    setTimeout(() => { tempEl.classList.remove('fade-in'); humidityEl.classList.remove('fade-in'); }, 500);
+
+    tempEl.innerHTML = `${data.temperature}<span class="stat-unit">°C</span>`;
+    humidityEl.innerHTML = `${data.humidity}<span class="stat-unit">%</span>`;
+
+    const prob    = data.probability_of_rain;
+    const pct     = Math.round(prob * 100);
+    probPctEl.textContent = pct + '%';
+    barFill.style.width   = pct + '%';
+
+    // Highlight rain probability section and update sub-label when above threshold
+    if (pct > RAIN_PROB_THRESHOLD) {
+      probSection.classList.add('rain-alert');
+      probSub.textContent = `High · above ${RAIN_PROB_THRESHOLD}%`;
+      probSub.style.color = '#ff8a65';
+    } else {
+      probSection.classList.remove('rain-alert');
+      probSub.textContent = '';
+      probSub.style.color = '';
     }
 
-    // Fire alert
-    updateAlertStatus('triggered', 'Sending rain alert…');
-    try {
-      const res = await fetch(ALERT_ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ emails: subscribers })
-      });
-      if (res.ok) {
-        lastAlertTime = now;
-        updateAlertStatus('triggered', `⚡ Alert sent to ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
-        setTimeout(() => {
-          updateAlertStatus('watching', `Watching · ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
-        }, 5000);
-      } else {
-        updateAlertStatus('watching', `Alert failed (HTTP ${res.status}) · retrying next cycle`);
-      }
-    } catch (err) {
-      updateAlertStatus('watching', 'Alert failed · network error');
-    }
+    const willRain = data.will_rain;
+    rainBadge.className   = 'rain-badge ' + (willRain ? 'yes-rain' : 'no-rain');
+    rainIcon.textContent  = willRain ? '🌧️' : '☀️';
+    rainText.textContent  = willRain ? 'Rain Expected' : 'Clear Skies Ahead';
+    rainOverlay.classList.toggle('active', willRain);
+    setIcon(willRain);
+
+    dot.className = 'dot';
+    statusText.textContent = 'Live · Updated just now';
+    countdown = INTERVAL;
+
+    // ── Fire rain probability alert if needed ──
+    await maybeFireRainAlert(pct);
+
+  } catch (e) {
+    dot.className = 'dot error';
+    statusText.textContent = 'Failed to fetch data';
+    countdown = INTERVAL;
   }
+}
 
-  // ── WEATHER FETCH ──
-  const INTERVAL = 30;
-  let countdown = INTERVAL;
-  let timer;
+function startCountdown() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    countdown--;
+    countdownEl.textContent = countdown;
+    if (countdown <= 0) { fetchWeather(); countdown = INTERVAL; }
+  }, 1000);
+}
 
-  const tempEl     = document.getElementById('temp');
-  const humidityEl = document.getElementById('humidity');
-  const probPctEl  = document.getElementById('probPct');
-  const barFill    = document.getElementById('barFill');
-  const rainBadge  = document.getElementById('rainBadge');
-  const rainIcon   = document.getElementById('rainIcon');
-  const rainText   = document.getElementById('rainText');
-  const dot        = document.getElementById('dot');
-  const statusText = document.getElementById('statusText');
-  const countdownEl= document.getElementById('countdown');
-  const iconWrap   = document.getElementById('iconWrap');
-
-  function setIcon(willRain) {
-    iconWrap.innerHTML = willRain ? `
-      <div class="weather-icon">
-        <svg class="cloud-icon" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="45" cy="38" rx="22" ry="14" fill="rgba(92,155,214,0.25)" stroke="rgba(92,155,214,0.5)" stroke-width="1.5"/>
-          <ellipse cx="32" cy="42" rx="13" ry="10" fill="rgba(92,155,214,0.2)" stroke="rgba(92,155,214,0.4)" stroke-width="1.5"/>
-          <ellipse cx="58" cy="44" rx="14" ry="10" fill="rgba(92,155,214,0.2)" stroke="rgba(92,155,214,0.4)" stroke-width="1.5"/>
-          <rect x="31" y="54" width="4" height="10" rx="2" fill="rgba(79,195,247,0.7)" transform="rotate(-10 31 54)"/>
-          <rect x="43" y="56" width="4" height="10" rx="2" fill="rgba(79,195,247,0.7)"/>
-          <rect x="55" y="54" width="4" height="10" rx="2" fill="rgba(79,195,247,0.7)" transform="rotate(10 55 54)"/>
-        </svg>
-      </div>` : `
-      <div class="weather-icon">
-        <svg class="sun-icon" viewBox="0 0 90 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="45" cy="45" r="16" fill="#ffd54f" opacity="0.9"/>
-          <g stroke="#ffd54f" stroke-width="2.5" stroke-linecap="round" opacity="0.7">
-            <line x1="45" y1="8" x2="45" y2="16"/>
-            <line x1="45" y1="74" x2="45" y2="82"/>
-            <line x1="8" y1="45" x2="16" y2="45"/>
-            <line x1="74" y1="45" x2="82" y2="45"/>
-            <line x1="19.5" y1="19.5" x2="25.5" y2="25.5"/>
-            <line x1="64.5" y1="64.5" x2="70.5" y2="70.5"/>
-            <line x1="70.5" y1="19.5" x2="64.5" y2="25.5"/>
-            <line x1="25.5" y1="64.5" x2="19.5" y2="70.5"/>
-          </g>
-        </svg>
-      </div>`;
-  }
-
-  async function fetchWeather() {
-    try {
-      const res = await fetch(WEATHER_ENDPOINT);
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-
-      tempEl.classList.add('fade-in');
-      humidityEl.classList.add('fade-in');
-      setTimeout(() => { tempEl.classList.remove('fade-in'); humidityEl.classList.remove('fade-in'); }, 500);
-
-      tempEl.innerHTML    = `${data.temperature}<span class="stat-unit">°C</span>`;
-      humidityEl.innerHTML= `${data.humidity}<span class="stat-unit">%</span>`;
-
-      const prob = data.probability_of_rain;           // 0–1
-      const pct  = Math.round(prob * 100);
-      probPctEl.textContent = pct + '%';
-      barFill.style.width   = pct + '%';
-
-      const willRain = data.will_rain;
-      rainBadge.className   = 'rain-badge ' + (willRain ? 'yes-rain' : 'no-rain');
-      rainIcon.textContent  = willRain ? '🌧️' : '☀️';
-      rainText.textContent  = willRain ? 'Rain Expected' : 'Clear Skies Ahead';
-      rainOverlay.classList.toggle('active', willRain);
-      setIcon(willRain);
-
-      dot.className       = 'dot';
-      statusText.textContent = 'Live · Updated just now';
-      countdown = INTERVAL;
-
-      // ── Check if we need to fire a rain alert ──
-      await maybeFireAlert(prob);
-
-    } catch (e) {
-      dot.className = 'dot error';
-      statusText.textContent = 'Failed to fetch data';
-      countdown = INTERVAL;
-    }
-  }
-
-  function startCountdown() {
-    clearInterval(timer);
-    timer = setInterval(() => {
-      countdown--;
-      countdownEl.textContent = countdown;
-      if (countdown <= 0) {
-        fetchWeather();
-        countdown = INTERVAL;
-      }
-    }, 1000);
-  }
-
-  // Init
-  renderSubscribers();
-  fetchWeather();
-  startCountdown();
+fetchWeather();
+startCountdown();
 </script>
 </body>
 </html>
