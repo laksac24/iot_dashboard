@@ -18,6 +18,8 @@
     --sun: #ffd54f;
     --text: #e8f0fe;
     --muted: rgba(232,240,254,0.45);
+    --green: #4caf50;
+    --alert: #ff7043;
   }
 
   body {
@@ -282,6 +284,206 @@
   .chart-legend span { display: flex; align-items: center; gap: 4px; }
   .legend-sq { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
 
+  /* ── EMAIL ALERT SECTION ── */
+  .alert-section {
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(79,195,247,0.15);
+    border-radius: 16px;
+    padding: 1.4rem 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .alert-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(79,195,247,0.5), transparent);
+  }
+  .alert-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(79,195,247,0.04), transparent 70%);
+    pointer-events: none;
+  }
+
+  .alert-header {
+    display: flex; align-items: center; gap: 0.6rem;
+    margin-bottom: 0.4rem;
+  }
+  .alert-bell {
+    font-size: 1rem;
+    animation: bellRing 4s ease-in-out infinite;
+    transform-origin: top center;
+  }
+  @keyframes bellRing {
+    0%,85%,100% { transform: rotate(0deg); }
+    88% { transform: rotate(12deg); }
+    92% { transform: rotate(-12deg); }
+    96% { transform: rotate(8deg); }
+  }
+  .alert-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .alert-desc {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.67rem;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    letter-spacing: 0.03em;
+  }
+  .alert-desc strong {
+    color: rgba(232,240,254,0.7);
+  }
+
+  .email-input-row {
+    display: flex; gap: 0.6rem;
+  }
+  .email-input {
+    flex: 1;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.65rem 0.9rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .email-input::placeholder { color: rgba(232,240,254,0.25); }
+  .email-input:focus {
+    border-color: rgba(79,195,247,0.4);
+    box-shadow: 0 0 0 3px rgba(79,195,247,0.08);
+  }
+
+  .register-btn {
+    background: rgba(79,195,247,0.12);
+    border: 1px solid rgba(79,195,247,0.3);
+    border-radius: 10px;
+    padding: 0.65rem 1.1rem;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.1s;
+    white-space: nowrap;
+  }
+  .register-btn:hover {
+    background: rgba(79,195,247,0.2);
+    border-color: rgba(79,195,247,0.5);
+  }
+  .register-btn:active { transform: scale(0.97); }
+  .register-btn:disabled {
+    opacity: 0.4; cursor: not-allowed;
+  }
+
+  .email-feedback {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    margin-top: 0.55rem;
+    min-height: 1rem;
+    letter-spacing: 0.04em;
+    transition: opacity 0.3s;
+  }
+  .email-feedback.success { color: var(--green); }
+  .email-feedback.error   { color: var(--alert); }
+  .email-feedback.info    { color: var(--muted); }
+
+  /* Subscriber list pill strip */
+  .subscriber-strip {
+    margin-top: 0.9rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .sub-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .sub-pill {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    background: rgba(79,195,247,0.07);
+    border: 1px solid rgba(79,195,247,0.18);
+    border-radius: 99px;
+    padding: 0.22rem 0.65rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(232,240,254,0.6);
+    animation: pillIn 0.3s ease;
+  }
+  @keyframes pillIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+  .sub-remove {
+    background: none; border: none; cursor: pointer;
+    color: rgba(232,240,254,0.3);
+    font-size: 0.75rem; line-height: 1;
+    padding: 0; margin: 0;
+    transition: color 0.2s;
+  }
+  .sub-remove:hover { color: var(--alert); }
+
+  /* Alert status pill */
+  .alert-status-row {
+    margin-top: 0.9rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .alert-status-pill {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 99px;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+  }
+  .alert-status-pill.idle {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--muted);
+  }
+  .alert-status-pill.watching {
+    background: rgba(76,175,80,0.08);
+    border: 1px solid rgba(76,175,80,0.2);
+    color: #81c784;
+  }
+  .alert-status-pill.triggered {
+    background: rgba(255,112,67,0.1);
+    border: 1px solid rgba(255,112,67,0.3);
+    color: #ff8a65;
+  }
+  .alert-status-pill.cooldown {
+    background: rgba(255,213,79,0.08);
+    border: 1px solid rgba(255,213,79,0.2);
+    color: #ffd54f;
+  }
+  .alert-status-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .watching .alert-status-dot  { background: #81c784; box-shadow: 0 0 6px #4caf50; }
+  .triggered .alert-status-dot { background: #ff8a65; box-shadow: 0 0 6px #ff7043; }
+  .cooldown .alert-status-dot  { background: #ffd54f; box-shadow: 0 0 6px #ffca28; }
+  .idle .alert-status-dot      { background: var(--muted); box-shadow: none; animation: none; }
+
+  /* ── STATUS BAR ── */
   .status-bar {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: 1.5rem;
@@ -398,7 +600,42 @@
         </div>
       </div>
       <div style="position: relative; width: 100%; height: 180px;">
-        <canvas id="rainChart" role="img" aria-label="Bar chart showing rain probability for each day in May 2026. Days 1 through 3 have high probability around 70 percent, the rest of the month is mostly below 40 percent.">Day 1: 74%, Day 2: 71%, Day 3: 68%, Day 4: 38%, Day 5: 29%, Day 6: 22%, Day 7: 35%, Day 8: 18%, Day 9: 25%, Day 10: 31%.</canvas>
+        <canvas id="rainChart" role="img" aria-label="Bar chart showing rain probability for each day in May 2026."></canvas>
+      </div>
+    </div>
+
+    <!-- ── EMAIL ALERT REGISTRATION ── -->
+    <div class="alert-section">
+      <div class="alert-header">
+        <span class="alert-bell">🔔</span>
+        <span class="alert-title">Rain Alerts</span>
+      </div>
+      <p class="alert-desc">
+        Want a heads-up before it pours? Register your email and we'll send you an alert whenever
+        <strong>rain probability exceeds 90%</strong>. Alerts are spaced at least <strong>1 hour apart</strong>.
+      </p>
+
+      <div class="email-input-row">
+        <input
+          class="email-input"
+          id="emailInput"
+          type="email"
+          placeholder="your@email.com"
+          autocomplete="email"
+        />
+        <button class="register-btn" id="registerBtn" onclick="registerEmail()">Register</button>
+      </div>
+      <div class="email-feedback" id="emailFeedback"></div>
+
+      <!-- Subscribed email pills -->
+      <div class="subscriber-strip" id="subscriberStrip"></div>
+
+      <!-- Alert system status -->
+      <div class="alert-status-row">
+        <div class="alert-status-pill idle" id="alertStatusPill">
+          <div class="alert-status-dot"></div>
+          <span id="alertStatusText">No subscribers yet</span>
+        </div>
       </div>
     </div>
 
@@ -414,7 +651,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-  // Generate stars
+  // ── STARS ──
   const starsEl = document.getElementById('stars');
   for (let i = 0; i < 80; i++) {
     const s = document.createElement('div');
@@ -424,7 +661,7 @@
     starsEl.appendChild(s);
   }
 
-  // Generate rain drops
+  // ── RAIN DROPS ──
   const rainOverlay = document.getElementById('rainOverlay');
   for (let i = 0; i < 30; i++) {
     const d = document.createElement('div');
@@ -434,7 +671,7 @@
     rainOverlay.appendChild(d);
   }
 
-  // Monthly chart
+  // ── MONTHLY CHART ──
   const mayData = [74,71,68,38,29,22,35,18,25,31,27,20,33,15,28,22,37,19,24,30,16,28,21,34,18,26,22,30,17,24,20];
   const mayLabels = Array.from({length:31},(_,i)=>i+1);
   const barColors = mayData.map(v => v >= 60 ? '#5c9bd6' : v >= 40 ? '#4fc3f7' : 'rgba(79,195,247,0.35)');
@@ -485,8 +722,7 @@
           border: { color: 'rgba(255,255,255,0.08)' }
         },
         y: {
-          min: 0,
-          max: 100,
+          min: 0, max: 100,
           ticks: {
             color: 'rgba(232,240,254,0.35)',
             font: { family: "'DM Mono', monospace", size: 9 },
@@ -500,23 +736,154 @@
     }
   });
 
-  // Weather fetch logic
-  const ENDPOINT = 'https://rain-predictor-iot.onrender.com/latest';
+  // ── EMAIL / ALERT SYSTEM ──
+  const ALERT_ENDPOINT    = 'https://rain-predictor-iot.onrender.com/send-alert';
+  const WEATHER_ENDPOINT  = 'https://rain-predictor-iot.onrender.com/latest';
+  const ALERT_THRESHOLD   = 0.90;   // 90%
+  const ALERT_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
+  const STORAGE_KEY       = 'weatherAlertEmails';
+
+  // localStorage acts as our "text file" for subscribers
+  function loadEmails() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch { return []; }
+  }
+  function saveEmails(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  let lastAlertTime = 0;   // epoch ms of last successful /send-alert call
+  let subscribers   = loadEmails();
+
+  // Render subscriber pills
+  function renderSubscribers() {
+    const strip = document.getElementById('subscriberStrip');
+    strip.innerHTML = '';
+    if (subscribers.length === 0) return;
+
+    const lbl = document.createElement('span');
+    lbl.className = 'sub-label';
+    lbl.textContent = 'Subscribed:';
+    strip.appendChild(lbl);
+
+    subscribers.forEach((email, idx) => {
+      const pill = document.createElement('div');
+      pill.className = 'sub-pill';
+      pill.innerHTML = `${email}<button class="sub-remove" title="Remove" onclick="removeEmail(${idx})">✕</button>`;
+      strip.appendChild(pill);
+    });
+
+    updateAlertStatus('watching', `Watching · ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
+  }
+
+  function removeEmail(idx) {
+    subscribers.splice(idx, 1);
+    saveEmails(subscribers);
+    renderSubscribers();
+    if (subscribers.length === 0) updateAlertStatus('idle', 'No subscribers yet');
+  }
+
+  function updateAlertStatus(state, text) {
+    const pill = document.getElementById('alertStatusPill');
+    pill.className = `alert-status-pill ${state}`;
+    document.getElementById('alertStatusText').textContent = text;
+  }
+
+  function registerEmail() {
+    const input    = document.getElementById('emailInput');
+    const feedback = document.getElementById('emailFeedback');
+    const btn      = document.getElementById('registerBtn');
+    const email    = input.value.trim().toLowerCase();
+
+    // Validate
+    if (!email) {
+      setFeedback('Please enter an email address.', 'error'); return;
+    }
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!valid) {
+      setFeedback('That doesn\'t look like a valid email.', 'error'); return;
+    }
+    if (subscribers.includes(email)) {
+      setFeedback('This email is already registered! ✓', 'info'); return;
+    }
+
+    // Add
+    subscribers.push(email);
+    saveEmails(subscribers);
+    renderSubscribers();
+    input.value = '';
+    setFeedback(`✓ ${email} registered for rain alerts.`, 'success');
+    btn.disabled = true;
+    setTimeout(() => { btn.disabled = false; }, 1500);
+  }
+
+  function setFeedback(msg, type) {
+    const fb = document.getElementById('emailFeedback');
+    fb.textContent = msg;
+    fb.className = `email-feedback ${type}`;
+    clearTimeout(fb._t);
+    if (type !== 'info') {
+      fb._t = setTimeout(() => { fb.textContent = ''; fb.className = 'email-feedback'; }, 4000);
+    }
+  }
+
+  // Allow Enter key to register
+  document.getElementById('emailInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') registerEmail();
+  });
+
+  // ── RAIN ALERT LOGIC ──
+  async function maybeFireAlert(probability) {
+    if (subscribers.length === 0) return;
+    if (probability < ALERT_THRESHOLD) return;
+
+    const now = Date.now();
+    const elapsed = now - lastAlertTime;
+    if (elapsed < ALERT_COOLDOWN_MS) {
+      // Show cooldown time remaining
+      const remaining = Math.ceil((ALERT_COOLDOWN_MS - elapsed) / 60000);
+      updateAlertStatus('cooldown', `Alert sent · next in ${remaining}m`);
+      return;
+    }
+
+    // Fire alert
+    updateAlertStatus('triggered', 'Sending rain alert…');
+    try {
+      const res = await fetch(ALERT_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ emails: subscribers })
+      });
+      if (res.ok) {
+        lastAlertTime = now;
+        updateAlertStatus('triggered', `⚡ Alert sent to ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
+        setTimeout(() => {
+          updateAlertStatus('watching', `Watching · ${subscribers.length} subscriber${subscribers.length>1?'s':''}`);
+        }, 5000);
+      } else {
+        updateAlertStatus('watching', `Alert failed (HTTP ${res.status}) · retrying next cycle`);
+      }
+    } catch (err) {
+      updateAlertStatus('watching', 'Alert failed · network error');
+    }
+  }
+
+  // ── WEATHER FETCH ──
   const INTERVAL = 30;
   let countdown = INTERVAL;
   let timer;
 
-  const tempEl      = document.getElementById('temp');
-  const humidityEl  = document.getElementById('humidity');
-  const probPctEl   = document.getElementById('probPct');
-  const barFill     = document.getElementById('barFill');
-  const rainBadge   = document.getElementById('rainBadge');
-  const rainIcon    = document.getElementById('rainIcon');
-  const rainText    = document.getElementById('rainText');
-  const dot         = document.getElementById('dot');
-  const statusText  = document.getElementById('statusText');
-  const countdownEl = document.getElementById('countdown');
-  const iconWrap    = document.getElementById('iconWrap');
+  const tempEl     = document.getElementById('temp');
+  const humidityEl = document.getElementById('humidity');
+  const probPctEl  = document.getElementById('probPct');
+  const barFill    = document.getElementById('barFill');
+  const rainBadge  = document.getElementById('rainBadge');
+  const rainIcon   = document.getElementById('rainIcon');
+  const rainText   = document.getElementById('rainText');
+  const dot        = document.getElementById('dot');
+  const statusText = document.getElementById('statusText');
+  const countdownEl= document.getElementById('countdown');
+  const iconWrap   = document.getElementById('iconWrap');
 
   function setIcon(willRain) {
     iconWrap.innerHTML = willRain ? `
@@ -549,7 +916,7 @@
 
   async function fetchWeather() {
     try {
-      const res = await fetch(ENDPOINT);
+      const res = await fetch(WEATHER_ENDPOINT);
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
 
@@ -557,23 +924,28 @@
       humidityEl.classList.add('fade-in');
       setTimeout(() => { tempEl.classList.remove('fade-in'); humidityEl.classList.remove('fade-in'); }, 500);
 
-      tempEl.innerHTML = `${data.temperature}<span class="stat-unit">°C</span>`;
-      humidityEl.innerHTML = `${data.humidity}<span class="stat-unit">%</span>`;
+      tempEl.innerHTML    = `${data.temperature}<span class="stat-unit">°C</span>`;
+      humidityEl.innerHTML= `${data.humidity}<span class="stat-unit">%</span>`;
 
-      const pct = Math.round(data.probability_of_rain * 100);
+      const prob = data.probability_of_rain;           // 0–1
+      const pct  = Math.round(prob * 100);
       probPctEl.textContent = pct + '%';
-      barFill.style.width = pct + '%';
+      barFill.style.width   = pct + '%';
 
       const willRain = data.will_rain;
-      rainBadge.className = 'rain-badge ' + (willRain ? 'yes-rain' : 'no-rain');
-      rainIcon.textContent = willRain ? '🌧️' : '☀️';
-      rainText.textContent = willRain ? 'Rain Expected' : 'Clear Skies Ahead';
+      rainBadge.className   = 'rain-badge ' + (willRain ? 'yes-rain' : 'no-rain');
+      rainIcon.textContent  = willRain ? '🌧️' : '☀️';
+      rainText.textContent  = willRain ? 'Rain Expected' : 'Clear Skies Ahead';
       rainOverlay.classList.toggle('active', willRain);
       setIcon(willRain);
 
-      dot.className = 'dot';
+      dot.className       = 'dot';
       statusText.textContent = 'Live · Updated just now';
       countdown = INTERVAL;
+
+      // ── Check if we need to fire a rain alert ──
+      await maybeFireAlert(prob);
+
     } catch (e) {
       dot.className = 'dot error';
       statusText.textContent = 'Failed to fetch data';
@@ -593,6 +965,8 @@
     }, 1000);
   }
 
+  // Init
+  renderSubscribers();
   fetchWeather();
   startCountdown();
 </script>
