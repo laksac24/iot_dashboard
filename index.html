@@ -244,6 +244,43 @@
     color: var(--accent2);
   }
 
+  /* Monthly Chart Section */
+  .chart-section {
+    margin-top: 1rem;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.25rem 1.25rem 1rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .chart-section::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+  .chart-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 0.85rem;
+  }
+  .chart-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .chart-legend {
+    display: flex; gap: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    color: rgba(232,240,254,0.35);
+  }
+  .chart-legend span { display: flex; align-items: center; gap: 4px; }
+  .legend-sq { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+
   .status-bar {
     display: flex; align-items: center; justify-content: space-between;
     margin-top: 1.5rem;
@@ -349,6 +386,21 @@
       <span id="rainText">Loading forecast…</span>
     </div>
 
+    <!-- Monthly Rain Probability Chart -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <span class="chart-label">May 2026 · Monthly Forecast</span>
+        <div class="chart-legend">
+          <span><span class="legend-sq" style="background:#5c9bd6;"></span>High</span>
+          <span><span class="legend-sq" style="background:#4fc3f7;"></span>Moderate</span>
+          <span><span class="legend-sq" style="background:rgba(79,195,247,0.35);"></span>Low</span>
+        </div>
+      </div>
+      <div style="position: relative; width: 100%; height: 180px;">
+        <canvas id="rainChart" role="img" aria-label="Bar chart showing rain probability for each day in May 2026. Days 1 through 3 have high probability around 70 percent, the rest of the month is mostly below 40 percent.">Day 1: 74%, Day 2: 71%, Day 3: 68%, Day 4: 38%, Day 5: 29%, Day 6: 22%, Day 7: 35%, Day 8: 18%, Day 9: 25%, Day 10: 31%.</canvas>
+      </div>
+    </div>
+
     <div class="status-bar">
       <div class="live-dot">
         <div class="dot" id="dot"></div>
@@ -359,6 +411,7 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
   // Generate stars
   const starsEl = document.getElementById('stars');
@@ -380,6 +433,73 @@
     rainOverlay.appendChild(d);
   }
 
+  // Monthly chart
+  const mayData = [74,71,68,38,29,22,35,18,25,31,27,20,33,15,28,22,37,19,24,30,16,28,21,34,18,26,22,30,17,24,20];
+  const mayLabels = Array.from({length:31},(_,i)=>i+1);
+  const barColors = mayData.map(v => v >= 60 ? '#5c9bd6' : v >= 40 ? '#4fc3f7' : 'rgba(79,195,247,0.35)');
+  const barBorders = mayData.map(v => v >= 60 ? '#81c4f0' : v >= 40 ? '#81d4fa' : 'rgba(79,195,247,0.55)');
+
+  new Chart(document.getElementById('rainChart'), {
+    type: 'bar',
+    data: {
+      labels: mayLabels,
+      datasets: [{
+        data: mayData,
+        backgroundColor: barColors,
+        borderColor: barBorders,
+        borderWidth: 1,
+        borderRadius: 3,
+        borderSkipped: false,
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(10,15,30,0.95)',
+          borderColor: 'rgba(79,195,247,0.3)',
+          borderWidth: 1,
+          titleColor: '#4fc3f7',
+          bodyColor: 'rgba(232,240,254,0.7)',
+          titleFont: { family: "'DM Mono', monospace", size: 11 },
+          bodyFont: { family: "'DM Mono', monospace", size: 12 },
+          callbacks: {
+            title: ctx => 'May ' + ctx[0].label,
+            label: ctx => 'Rain chance: ' + ctx.raw + '%'
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: {
+            color: 'rgba(232,240,254,0.35)',
+            font: { family: "'DM Mono', monospace", size: 9 },
+            autoSkip: false,
+            maxRotation: 0,
+            callback: (val, i) => (i+1) % 5 === 1 || i === 30 ? mayLabels[i] : ''
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { color: 'rgba(255,255,255,0.08)' }
+        },
+        y: {
+          min: 0,
+          max: 100,
+          ticks: {
+            color: 'rgba(232,240,254,0.35)',
+            font: { family: "'DM Mono', monospace", size: 9 },
+            callback: v => v + '%',
+            stepSize: 25
+          },
+          grid: { color: 'rgba(255,255,255,0.05)' },
+          border: { color: 'rgba(255,255,255,0.08)' }
+        }
+      }
+    }
+  });
+
+  // Weather fetch logic
   const ENDPOINT = 'https://rain-predictor-iot.onrender.com/latest';
   const INTERVAL = 30;
   let countdown = INTERVAL;
